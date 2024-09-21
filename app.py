@@ -1,10 +1,13 @@
-from flask import Flask
+from flask import Flask, render_template
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route("/", methods=['GET'])
+
+@app.route('/')
 def home():
-    return "<h1>Hello World</h1>"
+    return render_template('index.html')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run()
