@@ -27,7 +27,7 @@ async function uploadImage(file) {
     formData.append('file', file);
 
     try {
-        const response = await fetch('/predict', {
+        const response = await fetch('https://capstonec.onrender.com/predict', {
             method: 'POST',
             body: formData
         });
