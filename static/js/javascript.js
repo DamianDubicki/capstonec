@@ -5,7 +5,6 @@ document.getElementById('uploadButton').addEventListener('click', () => {
 document.getElementById('imageInput').addEventListener('change', (event) => {
     const file = event.target.files[0];
     if (file) {
-        // Check if the file is an image
         if (!file.type.startsWith('image/')) {
             alert('Please upload a valid image file.');
             return;
@@ -39,9 +38,6 @@ async function uploadImage(file) {
 
         const data = await response.json();
         document.getElementById('artwork').textContent = `Name: ${data.artwork}`;
-        document.getElementById('artist').textContent = `Artist: ${data.artist}`;
-        document.getElementById('date').textContent = `Date: ${data.date}`;
-        document.getElementById('style').textContent = `Style: ${data.style}`;
 
         document.getElementById('prediction').style.display = 'block';
     } catch (error) {
