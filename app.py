@@ -24,15 +24,18 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file part'}), 400
-    
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
-
     try:
+        if 'file' not in request.files:
+            app.logger.error("No file part")
+            return jsonify({'error': 'No file part'}), 400
+
+        file = request.files['file']
+        if file.filename == '':
+            app.logger.error("No selected file")
+            return jsonify({'error': 'No selected file'}), 400
+
         if not allowed_file(file.filename):
+            app.logger.error("Unsupported file type")
             return jsonify({'error': 'Unsupported file type'}), 400
 
         pil_image = Image.open(file.stream).convert('RGB')
@@ -46,9 +49,9 @@ def predict():
         predicted_artwork = label_encoder.inverse_transform([predicted_class_index])[0]
 
         return jsonify({'artwork': predicted_artwork})
-
+    
     except Exception as e:
-        print(f"Error during prediction: {e}")
+        app.logger.error(f"Error during prediction: {e}")
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
